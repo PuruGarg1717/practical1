@@ -153,4 +153,171 @@
         <p class="muted" style="margin:0 0 .6rem 0">This single-file template is easy to customize. Edit colors, fonts, grid — reuse components for pages and prototypes.</p>
 
         <div style="display:flex;gap:.6rem;flex-wrap:wrap">
-          <div class="badge">Accessible</div
+          <div class="badge">Accessible</div>
+          <div class="badge">Responsive</div>
+          <div class="badge">Vanilla JS</div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features">
+      <div class="grid">
+        <div class="feature card">
+          <h3>Semantic HTML</h3>
+          <p class="muted">Proper sectioning and landmarks for accessibility and SEO.</p>
+        </div>
+        <div class="feature card">
+          <h3>Responsive Grid</h3>
+          <p class="muted">Flex and CSS Grid mix for layouts that scale from mobile to desktop.</p>
+        </div>
+        <div class="feature card">
+          <h3>Interactive UI</h3>
+          <p class="muted">Small JavaScript helpers for modals, form validation and navigation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" style="margin-top:.6rem">
+      <h2 style="margin:0 0 .6rem 0">Gallery</h2>
+      <div class="gallery">
+        <div class="thumb card" tabindex="0" onclick="openModal('Preview 1')"><small>Preview 1</small></div>
+        <div class="thumb card" tabindex="0" onclick="openModal('Preview 2')"><small>Preview 2</small></div>
+        <div class="thumb card" tabindex="0" onclick="openModal('Preview 3')"><small>Preview 3</small></div>
+        <div class="thumb card" tabindex="0" onclick="openModal('Preview 4')"><small>Preview 4</small></div>
+        <div class="thumb card" tabindex="0" onclick="openModal('Preview 5')"><small>Preview 5</small></div>
+        <div class="thumb card" tabindex="0" onclick="openModal('Preview 6')"><small>Preview 6</small></div>
+        <div class="thumb card" tabindex="0" onclick="openModal('Preview 7')"><small>Preview 7</small></div>
+        <div class="thumb card" tabindex="0" onclick="openModal('Preview 8')"><small>Preview 8</small></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="margin-top:1rem">
+      <h2 style="margin:0 0 .6rem 0">Contact</h2>
+      <div class="card">
+        <form id="contactForm" onsubmit="return handleSubmit(event)" novalidate>
+          <label for="name">Name</label>
+          <input id="name" name="name" placeholder="Your name" required>
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required>
+
+          <div class="row">
+            <div>
+              <label for="subject">Subject</label>
+              <input id="subject" name="subject" placeholder="Subject">
+            </div>
+            <div>
+              <label for="priority">Priority</label>
+              <select id="priority" name="priority">
+                <option>Normal</option><option>High</option><option>Low</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Write your message..." required></textarea>
+
+          <div style="display:flex;gap:.6rem;align-items:center;margin-top:.6rem">
+            <button class="btn btn-primary" type="submit">Send message</button>
+            <button class="btn btn-ghost" type="reset">Reset</button>
+            <div id="formResult" class="muted" style="margin-left:auto;font-size:.9rem"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> AwesomeStarter — Built with HTML, CSS & vanilla JS
+    </footer>
+  </div>
+
+  <!-- Modal (hidden until used) -->
+  <div id="modalRoot" style="display:none" aria-hidden="true"></div>
+
+  <script>
+    // small helpers
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function showExample(){
+      openModal('This is a small demo modal.\nUse it for quick previews or messages.');
+    }
+
+    // Modal: simple content string
+    function openModal(content){
+      const root = document.getElementById('modalRoot');
+      root.innerHTML = `
+        <div class="modal" role="dialog" aria-modal="true" onclick="closeModal(event)">
+          <div class="box" onclick="event.stopPropagation()">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <strong>Preview</strong>
+              <span class="close" onclick="closeModal(event)" aria-label="Close">✕</span>
+            </div>
+            <div style="margin-top:.8rem;white-space:pre-wrap">${escapeHtml(content)}</div>
+            <div style="margin-top:1rem;display:flex;gap:.6rem;justify-content:flex-end">
+              <button class="btn btn-ghost" onclick="closeModal(event)">Close</button>
+            </div>
+          </div>
+        </div>`;
+      root.style.display = 'block';
+      root.setAttribute('aria-hidden','false');
+      // trap focus lightly
+      setTimeout(()=>{ const first = root.querySelector('button, [tabindex]'); if(first) first.focus(); },50);
+    }
+    function closeModal(ev){
+      if(ev) ev.stopPropagation();
+      const root = document.getElementById('modalRoot');
+      root.style.display = 'none';
+      root.innerHTML = '';
+      root.setAttribute('aria-hidden','true');
+    }
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m] });
+    }
+
+    // Contact form: simple front-end validation + fake "send"
+    function handleSubmit(e){
+      e.preventDefault();
+      const form = e.target;
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+      const result = document.getElementById('formResult');
+
+      if(!name || !email || !message){
+        result.textContent = 'Please fill required fields.';
+        return false;
+      }
+      // very light email regex
+      const re = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      if(!re.test(email)){
+        result.textContent = 'Enter a valid email.';
+        return false;
+      }
+
+      // Simulate sending (client-side)
+      result.textContent = 'Sending...';
+      setTimeout(()=>{
+        result.textContent = 'Message sent. Thanks!';
+        form.reset();
+      },800);
+
+      return false;
+    }
+
+    // Accessibility: allow Enter key on thumbnails to open modal
+    document.querySelectorAll('.thumb').forEach(el=>{
+      el.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' ') { openModal(el.innerText || 'Preview'); e.preventDefault(); }
+      });
+    });
+  </script>
+</body>
+</html>
