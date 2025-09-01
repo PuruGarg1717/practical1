@@ -1,13 +1,156 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>My First Page</title>
-  <style>body{font-family:system-ui;margin:2rem;line-height:1.6}</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Awesome Starter — Responsive HTML Template</title>
+
+  <!-- Optional Google Font (keeps look nice) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#6ee7b7; --glass: rgba(255,255,255,0.03);
+      --radius:14px; --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:linear-gradient(180deg,#071127 0%, #071826 60%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      padding:2rem 1rem;
+      display:flex;
+      justify-content:center;
+    }
+    .container{width:100%;max-width:var(--maxw);}
+
+    /* NAV */
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;
+      gap:1rem;
+    }
+    .brand{display:flex;align-items:center;gap:.6rem;font-weight:700}
+    .logo{
+      width:44px;height:44px;background:linear-gradient(135deg,var(--accent),#60a5fa);
+      border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#04202c;
+      box-shadow:0 6px 18px rgba(6,12,20,0.6);
+    }
+    nav ul{display:flex;gap:1rem;list-style:none;padding:0;margin:0}
+    nav a{color:var(--muted);text-decoration:none;padding:.4rem .6rem;border-radius:8px}
+    nav a:hover{background:var(--glass);color:var(--accent)}
+
+    /* Hero */
+    .hero{
+      display:grid;grid-template-columns:1fr 420px;gap:1.25rem;align-items:center;margin-bottom:1.6rem;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:var(--radius);padding:1.2rem;box-shadow:0 6px 22px rgba(6,12,20,0.6);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .hero h1{margin:0;font-size:1.9rem}
+    .lead{color:var(--muted);margin-top:.6rem}
+
+    .cta-row{display:flex;gap:.8rem;margin-top:1rem;flex-wrap:wrap}
+    .btn{
+      border:0;padding:.6rem 1rem;border-radius:10px;font-weight:600;cursor:pointer;
+    }
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#60a5fa);color:#04202c}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+    /* Stats */
+    .stats{display:flex;gap:1rem;margin-top:1rem}
+    .stat{background:rgba(255,255,255,0.02);padding:.6rem .8rem;border-radius:10px}
+    .stat b{display:block;font-size:1.05rem}
+
+    /* Features grid */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}
+    .feature{padding:1rem;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
+    .feature h3{margin:.2rem 0 .6rem 0}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem}
+    .thumb{height:120px;border-radius:10px;background:linear-gradient(135deg,#0b1830,#06121a);display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+    .thumb small{color:var(--muted)}
+
+    /* Contact */
+    form{display:grid;gap:.6rem}
+    input,textarea,select{
+      background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);padding:.6rem;border-radius:8px;color:inherit;
+    }
+    label{font-size:.85rem;color:var(--muted)}
+    .row{display:flex;gap:.6rem}
+    .row > *{flex:1}
+
+    footer{margin-top:1.2rem;color:var(--muted);font-size:.9rem;text-align:center;padding:1rem 0}
+
+    /* Responsive */
+    @media(max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .gallery{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:560px){
+      nav ul{display:none}
+      .hero h1{font-size:1.4rem}
+      .grid{grid-template-columns:1fr}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+    }
+
+    /* small util */
+    .muted{color:var(--muted)}
+    .badge{font-size:.75rem;padding:.25rem .5rem;border-radius:999px;background:rgba(0,0,0,0.25)}
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:9999;padding:1.2rem}
+    .modal .box{background:#061224;padding:1rem;border-radius:12px;max-width:900px;width:100%}
+    .close{float:right;cursor:pointer;font-weight:700}
+  </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <p>This is a basic HTML page.</p>
-</body>
-</html>
+  <div class="container">
+    <header class="nav">
+      <div class="brand">
+        <div class="logo">AG</div>
+        <div>
+          <div style="font-size:1rem">AwesomeStarter</div>
+          <div class="muted" style="font-size:.75rem;margin-top:-2px">responsive template</div>
+        </div>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="card">
+        <h1>Build fast, build beautiful — a practical starter page</h1>
+        <p class="lead">A minimal, accessible, responsive layout with components: hero, features, gallery, modal, and contact form — everything in one file for quick prototyping.</p>
+
+        <div class="cta-row">
+          <button class="btn btn-primary" onclick="scrollToSection('features')">Get started</button>
+          <button class="btn btn-ghost" onclick="showExample()">Try demo</button>
+        </div>
+
+        <div class="stats" aria-hidden="true">
+          <div class="stat"><small class="muted">Users</small><b>1.2k+</b></div>
+          <div class="stat"><small class="muted">Projects</small><b>320</b></div>
+          <div class="stat"><small class="muted">Uptime</small><b>99.99%</b></div>
+        </div>
+      </div>
+
+      <aside class="card">
+        <h3 style="margin:0 0 .4rem 0">Quick notes</h3>
+        <p class="muted" style="margin:0 0 .6rem 0">This single-file template is easy to customize. Edit colors, fonts, grid — reuse components for pages and prototypes.</p>
+
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+          <div class="badge">Accessible</div
